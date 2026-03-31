@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-charcoal text-slate-200 antialiased overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-charcoal/60 backdrop-blur-lg border border-slate-700/30 shadow-xl;
+  }
+  .glass-card-hover {
+    @apply glass-card hover:bg-charcoal/80 transition-all duration-300;
+  }
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-metallicBlue to-slate-300;
+  }
+}
