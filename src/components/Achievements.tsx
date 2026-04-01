@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Award, Users, Crosshair } from 'lucide-react';
 
 const achievements = [
@@ -23,37 +24,76 @@ const achievements = [
 
 const Achievements = () => {
   return (
-    <section id="leadership" className="py-24 relative z-10 bg-slate-900/50">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Achievements & <span className="text-metallicBlue">Leadership</span>
+    <section id="leadership" className="py-24 relative z-10 bg-[#0a0f1a]">
+      <div className="max-w-5xl mx-auto px-6">
+        
+        {/* Section Header with Animation */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-3xl md:text-6xl font-black text-white mb-6">
+            Achievements & <span className="text-[#38bdf8]">Leadership</span>
           </h2>
-          <div className="w-20 h-1 bg-metallicBlue mx-auto" />
-        </div>
+          <div className="w-24 h-1.5 bg-[#38bdf8] mx-auto rounded-full" />
+        </motion.div>
 
-        <div className="relative border-l-2 border-slate-700 ml-4 md:ml-1/2 space-y-8 md:space-y-12 before:absolute before:inset-0 before:ml-[50%] before:-translate-x-px md:before:border-l-2 before:border-slate-700 before:hidden md:before:block md:border-l-0">
+        {/* Timeline Container */}
+        <div className="relative border-l-2 border-slate-800 ml-4 md:ml-0 md:before:absolute md:before:inset-0 md:before:left-1/2 md:before:-translate-x-px md:before:border-l-2 md:before:border-slate-800">
+          
           {achievements.map((item, idx) => (
-            <div 
-              key={item.organization}
-              className={`relative flex flex-col md:flex-row items-center justify-between w-full ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
-            >
-              {/* Timeline dot */}
-              <div className="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-metallicBlue shadow-[0_0_10px_rgba(37,99,235,0.8)] z-10" />
+            <div key={item.organization} className="relative mb-12 md:mb-24">
               
-              <div className="w-full md:w-5/12 ml-6 md:ml-0 glass-card-hover p-6 rounded-2xl md:text-center flex flex-col items-start md:items-center">
-                <div className="p-3 bg-slate-800 rounded-lg text-metallicBlue mb-4 inline-block">
-                  <item.icon className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2 text-left md:text-center">{item.role}</h3>
-                <p className="text-slate-400 text-sm font-medium text-left md:text-center">{item.organization}</p>
-                <div className="mt-4 px-3 py-1 rounded bg-slate-800 text-slate-300 text-xs tracking-wider uppercase inline-block">
-                  {item.year}
-                </div>
+              {/* Animated Timeline Dot */}
+              <motion.div 
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 top-10 w-5 h-5 rounded-full bg-[#38bdf8] shadow-[0_0_20px_#38bdf8] z-20 border-4 border-[#0a0f1a]" 
+              />
+              
+              <div className={`flex flex-col md:flex-row items-center justify-between w-full ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                
+                {/* Achievement Card with Slide-in Animation */}
+                <motion.div 
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? 50 : -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  whileHover={{ y: -10 }}
+                  className="w-full md:w-[45%] ml-8 md:ml-0 group"
+                >
+                  <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-3xl backdrop-blur-md hover:border-[#38bdf8]/50 transition-all duration-300 relative overflow-hidden">
+                    
+                    {/* Background Decorative Icon */}
+                    <item.icon className="absolute -right-4 -bottom-4 w-32 h-32 text-white/5 group-hover:text-[#38bdf8]/10 transition-all duration-500" />
+
+                    <div className="relative z-10">
+                      <div className="p-4 bg-slate-800/80 rounded-2xl text-[#38bdf8] mb-6 inline-block group-hover:bg-[#38bdf8] group-hover:text-white transition-all duration-300 shadow-lg">
+                        <item.icon className="w-8 h-8" />
+                      </div>
+                      
+                      <h3 className="text-2xl font-bold text-white mb-2">{item.role}</h3>
+                      <p className="text-slate-400 font-medium text-lg mb-4">{item.organization}</p>
+                      
+                      <div className="inline-block px-4 py-1.5 rounded-lg bg-[#38bdf8]/10 text-[#38bdf8] text-xs font-black tracking-widest uppercase border border-[#38bdf8]/20">
+                        {item.year}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Empty space for the other side of the timeline */}
+                <div className="hidden md:block w-[45%]" />
+                
               </div>
-              <div className="hidden md:block w-5/12" />
             </div>
           ))}
+          
         </div>
       </div>
     </section>
