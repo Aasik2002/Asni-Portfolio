@@ -30,9 +30,9 @@ const Sidebar = () => {
       variants={sidebarVariants}
       initial="hidden"
       animate="visible"
-      className="fixed left-0 top-0 h-screen w-20 md:w-64 bg-charcoal border-r border-slate-800 flex flex-col items-center md:items-start py-8 z-50 transition-all duration-300 shadow-2xl"
+      className="fixed bottom-0 left-0 md:top-0 w-full md:h-screen md:w-64 bg-charcoal border-t md:border-t-0 md:border-r border-slate-800 flex flex-row md:flex-col items-center md:items-start py-2 md:py-8 z-50 transition-all duration-300 shadow-2xl"
     >
-      <motion.div variants={itemVariants} className="mb-12 px-0 md:px-8 w-full flex justify-center md:justify-start">
+      <motion.div variants={itemVariants} className="hidden md:flex mb-12 px-8 w-full justify-start">
         <motion.div 
           whileHover={{ rotate: 180, scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -46,35 +46,47 @@ const Sidebar = () => {
         </span>
       </motion.div>
 
-      <nav className="flex-1 w-full space-y-4 px-3 md:px-6">
+      <nav className="flex-1 w-full flex flex-row md:flex-col justify-around md:justify-start items-center md:space-y-4 px-2 md:px-6">
         {navItems.map((item) => (
           <motion.a
             key={item.label}
             variants={itemVariants}
-            whileHover={{ scale: 1.05, x: 5 }}
+            whileHover={{ scale: 1.05, x: window.innerWidth > 768 ? 5 : 0, y: window.innerWidth <= 768 ? -5 : 0 }}
             whileTap={{ scale: 0.95 }}
             href={item.href}
-            className="flex items-center gap-4 text-slate-400 hover:text-white p-3 md:p-4 rounded-xl hover:bg-slate-800/50 transition-colors group relative"
+            className="flex flex-col md:flex-row items-center gap-1 md:gap-4 text-slate-400 hover:text-white p-2 md:p-4 rounded-xl hover:bg-slate-800/50 transition-colors group relative"
           >
-            <item.icon className="w-6 h-6 group-hover:text-bento-accent transition-colors shrink-0" />
-            <span className="hidden md:block font-medium">{item.label}</span>
-            {/* Tooltip for mobile */}
-            <div className="md:hidden absolute left-full ml-4 px-2 py-1 bg-white text-charcoal text-xs font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-md">
+            <item.icon className="w-6 h-6 md:w-6 md:h-6 group-hover:text-bento-accent transition-colors shrink-0" />
+            <span className="text-[10px] md:text-base block md:hidden lg:block font-medium md:min-w-0 min-w-max text-center">{item.label}</span>
+            {/* Tooltip for desktop only if collapsed - assuming desktop is full width here, but left it for reference */}
+            <div className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-white text-charcoal text-xs font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-md">
               {item.label}
             </div>
           </motion.a>
         ))}
+
+        {/* Contact Icon for mobile navigation */}
+        <motion.a
+          variants={itemVariants}
+          whileHover={{ scale: 1.05, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+          href="#contact"
+          className="md:hidden flex flex-col items-center gap-1 text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800/50 transition-colors group relative"
+        >
+          <Mail className="w-6 h-6 group-hover:text-bento-accent transition-colors shrink-0" />
+          <span className="text-[10px] block font-medium min-w-max text-center">Contact</span>
+        </motion.a>
       </nav>
 
-      <motion.div variants={itemVariants} className="px-3 md:px-6 w-full mt-auto">
+      <motion.div variants={itemVariants} className="hidden md:block px-6 w-full mt-auto">
         <motion.a 
           whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(204, 255, 0, 0.4)" }}
           whileTap={{ scale: 0.95 }}
           href="#contact"
-          className="w-full flex justify-center md:justify-start items-center gap-4 bg-bento-accent text-charcoal p-3 md:p-4 rounded-xl font-bold shadow-lg transition-transform"
+          className="w-full flex justify-start items-center gap-4 bg-bento-accent text-charcoal p-4 rounded-xl font-bold shadow-lg transition-transform"
         >
           <Mail className="w-6 h-6 shrink-0" />
-          <span className="hidden md:block">Contact</span>
+          <span>Contact</span>
         </motion.a>
       </motion.div>
     </motion.aside>
