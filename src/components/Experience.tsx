@@ -1,93 +1,128 @@
 import { motion } from 'framer-motion';
-import { Cpu, PenTool } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 
-const projects = [
+const experiences = [
   {
-    title: "Beehive Monitoring System (IoT)",
-    icon: Cpu,
-    description: "Developed an automated system using DHT22, BMP280, and MQ-135 sensors for real-time hive health and honey production optimization. This involved hardware integration, sensor calibration, and establishing data pipelines to a central dashboard for proactive beekeeping.",
+    role: "Undergraduate Engineer",
+    company: "Laugfs Lubricants Ltd",
+    duration: "Aug 2024 - Feb 2025",
+    description: "Conducted ISO testing on petroleum products, executed Six Sigma (DMAIC) methodology to cut packaging rework, implemented condition monitoring with oil analysis, and streamlined grease plant procurement through proactive supply chain tracking.",
+    skills: ["Petroleum Testing", "DMAIC", "Condition Monitoring"],
+    style: "bento-card-dark"
   },
   {
-    title: "Mini Foldable Table Design",
-    icon: PenTool,
-    description: "Engineered a space-saving furniture solution using CAD modeling and structural wood analysis. Created accurate 3D prototypes in SolidWorks to ensure structural integrity and seamless folding mechanisms under static weight loads.",
+    role: "Industrial Trainee",
+    company: "Nippon Paint Lanka (Pvt)Ltd",
+    duration: "Nov 2023 - May 2024",
+    description: "Monitored emulsion/enamel processes, enhanced supply chain reliability via supplier auditing, developed premium floor coating formulas through localized R&D, and optimized waste management to align with ISO 14001 cost-saving standards.",
+    skills: ["Polymer Testing", "R&D", "ISO 14001"],
+    style: "bento-card"
   }
 ];
 
 const Experience = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0, scale: 0.95 },
+    visible: { y: 0, opacity: 1, scale: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } }
+  };
+
   return (
-    <section id="experience" className="py-24 relative z-10 bg-[#0a0f1a]">
-      <div className="max-w-4xl mx-auto px-6">
-        
-        {/* Animated Heading */}
+    <section id="experience" className="py-12 px-4 md:px-8 relative z-10 w-full max-w-7xl mx-auto">
+      
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="mb-8"
+      >
+        <h2 className="text-3xl md:text-4xl font-black text-charcoal mb-4">
+          Professional Experience
+        </h2>
         <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ width: 0 }}
+          whileInView={{ width: 64 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-16 text-center md:text-left"
-        >
-          <h2 className="text-3xl md:text-6xl font-black text-white mb-6">
-            Technical <span className="text-[#38bdf8]">Experience</span>
-          </h2>
-          <div className="w-24 h-1.5 bg-[#38bdf8] mx-auto md:mx-0 rounded-full shadow-[0_0_15px_#38bdf8]" />
-        </motion.div>
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="h-1.5 bg-bento-accent rounded-full mb-6" 
+        />
+      </motion.div>
 
-        {/* Timeline Container */}
-        <div className="relative border-l-2 border-slate-800 ml-4 md:ml-0 md:pl-12 space-y-16">
-          
-          {/* Timeline Growth Animation (Line Drawing) */}
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+      >
+        
+        {experiences.map((exp) => (
           <motion.div 
-            initial={{ height: 0 }}
-            whileInView={{ height: "100%" }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute left-[-2px] md:left-[-2px] top-0 w-[2px] bg-[#38bdf8] origin-top z-0"
-          />
+            key={exp.company}
+            variants={itemVariants}
+            whileHover={{ y: -8, scale: 1.01, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
+            className={`${exp.style} p-8 relative flex flex-col group transition-all duration-300 overflow-hidden`}
+          >
+            {/* Dark Card Subtle Glow */}
+            {exp.style === 'bento-card-dark' && (
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none group-hover:bg-bento-accent/10 transition-colors duration-500" />
+            )}
 
-          {projects.map((project, index) => (
-            <motion.div 
-              key={project.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="relative"
-            >
-              {/* Pulsing Timeline Dot */}
-              <motion.div 
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                className="absolute -left-[53px] md:-left-[61px] top-6 w-6 h-6 rounded-full bg-[#0a0f1a] border-4 border-[#38bdf8] z-10 shadow-[0_0_15px_#38bdf8]" 
-              />
-              
-              {/* Project Card */}
-              <motion.div 
-                whileHover={{ scale: 1.02, x: 10 }}
-                className="bg-slate-900/50 border border-slate-800 p-8 rounded-[2rem] md:ml-4 backdrop-blur-xl hover:border-[#38bdf8]/40 transition-all duration-300 shadow-2xl group"
-              >
-                <div className="flex flex-col md:flex-row md:items-center gap-6 mb-6">
-                  <div className="p-4 bg-slate-800 rounded-2xl text-[#38bdf8] group-hover:bg-[#38bdf8] group-hover:text-[#0a0f1a] transition-all duration-300 shadow-lg w-fit">
-                    <project.icon className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                    {project.title}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 z-10">
+              <div className="flex items-center gap-4">
+                <motion.div 
+                  whileHover={{ rotate: 10, scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className={`p-4 rounded-xl shadow-sm ${exp.style === 'bento-card-dark' ? 'bg-bento-accent text-charcoal' : 'bg-charcoal/5 text-charcoal'}`}
+                >
+                  <Briefcase className="w-6 h-6" />
+                </motion.div>
+                <div>
+                  <h3 className={`text-xl font-black leading-tight ${exp.style === 'bento-card-dark' ? 'text-white' : 'text-charcoal'}`}>
+                    {exp.role}
                   </h3>
+                  <p className={`font-bold text-sm ${exp.style === 'bento-card-dark' ? 'text-bento-accent' : 'text-metallicBlue'}`}>
+                    {exp.company}
+                  </p>
                 </div>
-                
-                <p className="text-slate-400 leading-relaxed text-lg md:text-xl font-medium">
-                  {project.description}
-                </p>
+              </div>
+              <div className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap self-start sm:self-auto
+                ${exp.style === 'bento-card-dark' ? 'bg-white/10 text-white' : 'bg-slate-100 text-charcoal'}`}>
+                {exp.duration}
+              </div>
+            </div>
 
-                {/* Subtle Glow Effect on Hover */}
-                <div className="absolute inset-0 bg-[#38bdf8]/5 opacity-0 group-hover:opacity-100 rounded-[2rem] transition-opacity duration-500 pointer-events-none" />
-              </motion.div>
-            </motion.div>
-          ))}
-          
-        </div>
-      </div>
+            <p className={`text-sm mb-6 leading-relaxed flex-1 z-10 ${exp.style === 'bento-card-dark' ? 'text-slate-300' : 'text-slate-600'}`}>
+              {exp.description}
+            </p>
+
+            <div className="flex flex-wrap gap-2 mt-auto z-10">
+              {exp.skills.map((skill, sIdx) => (
+                <motion.span 
+                  key={skill} 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + (sIdx * 0.1) }}
+                  viewport={{ once: true }}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold 
+                    ${exp.style === 'bento-card-dark' ? 'bg-white/10 text-slate-200 border border-white/5' : 'bg-white text-slate-700 border border-slate-100'}`}
+                >
+                  {skill}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+
+      </motion.div>
     </section>
   );
 };

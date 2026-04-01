@@ -4,98 +4,114 @@ import { Award, Users, Crosshair } from 'lucide-react';
 const achievements = [
   {
     role: "Area Coordinator",
-    organization: "Polonnaruwa Undergraduate Association (PLUGA)",
+    organization: "Polonnaruwa Undergraduate Association",
     icon: Crosshair,
-    year: "Present"
+    year: "Present",
+    style: "bento-card-dark"
   },
   {
     role: "Active Member",
     organization: "Association of Material Technology (AMT)",
     icon: Users,
-    year: "Present"
+    year: "Present",
+    style: "bento-card"
   },
   {
     role: "Active Member",
     organization: "Robotic Society of Technology (ROST)",
     icon: Award,
-    year: "Present"
+    year: "Present",
+    style: "bento-card-accent"
   }
 ];
 
 const Achievements = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0, scale: 0.95 },
+    visible: { y: 0, opacity: 1, scale: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } }
+  };
+
   return (
-    <section id="leadership" className="py-24 relative z-10 bg-[#0a0f1a]">
-      <div className="max-w-5xl mx-auto px-6">
-        
-        {/* Section Header with Animation */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-3xl md:text-6xl font-black text-white mb-6">
-            Achievements & <span className="text-[#38bdf8]">Leadership</span>
+    <section id="leadership" className="py-12 px-4 md:px-8 relative z-10 w-full max-w-7xl mx-auto">
+      
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="mb-8 flex flex-col md:flex-row md:justify-between items-start md:items-end gap-4"
+      >
+        <div>
+          <h2 className="text-3xl md:text-4xl font-black text-charcoal mb-4">
+            Leadership & Achievements
           </h2>
-          <div className="w-24 h-1.5 bg-[#38bdf8] mx-auto rounded-full" />
-        </motion.div>
-
-        {/* Timeline Container */}
-        <div className="relative border-l-2 border-slate-800 ml-4 md:ml-0 md:before:absolute md:before:inset-0 md:before:left-1/2 md:before:-translate-x-px md:before:border-l-2 md:before:border-slate-800">
-          
-          {achievements.map((item, idx) => (
-            <div key={item.organization} className="relative mb-12 md:mb-24">
-              
-              {/* Animated Timeline Dot */}
-              <motion.div 
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 top-10 w-5 h-5 rounded-full bg-[#38bdf8] shadow-[0_0_20px_#38bdf8] z-20 border-4 border-[#0a0f1a]" 
-              />
-              
-              <div className={`flex flex-col md:flex-row items-center justify-between w-full ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                
-                {/* Achievement Card with Slide-in Animation */}
-                <motion.div 
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? 50 : -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                  whileHover={{ y: -10 }}
-                  className="w-full md:w-[45%] ml-8 md:ml-0 group"
-                >
-                  <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-3xl backdrop-blur-md hover:border-[#38bdf8]/50 transition-all duration-300 relative overflow-hidden">
-                    
-                    {/* Background Decorative Icon */}
-                    <item.icon className="absolute -right-4 -bottom-4 w-32 h-32 text-white/5 group-hover:text-[#38bdf8]/10 transition-all duration-500" />
-
-                    <div className="relative z-10">
-                      <div className="p-4 bg-slate-800/80 rounded-2xl text-[#38bdf8] mb-6 inline-block group-hover:bg-[#38bdf8] group-hover:text-white transition-all duration-300 shadow-lg">
-                        <item.icon className="w-8 h-8" />
-                      </div>
-                      
-                      <h3 className="text-2xl font-bold text-white mb-2">{item.role}</h3>
-                      <p className="text-slate-400 font-medium text-lg mb-4">{item.organization}</p>
-                      
-                      <div className="inline-block px-4 py-1.5 rounded-lg bg-[#38bdf8]/10 text-[#38bdf8] text-xs font-black tracking-widest uppercase border border-[#38bdf8]/20">
-                        {item.year}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Empty space for the other side of the timeline */}
-                <div className="hidden md:block w-[45%]" />
-                
-              </div>
-            </div>
-          ))}
-          
+          <motion.div 
+            initial={{ width: 0 }}
+            whileInView={{ width: 64 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="h-1.5 bg-bento-accent rounded-full" 
+          />
         </div>
-      </div>
+      </motion.div>
+
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+      >
+        
+        {achievements.map((item) => (
+          <motion.div 
+            key={item.organization}
+            variants={itemVariants}
+            whileHover={{ y: -8, scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.15)" }}
+            className={`${item.style} p-8 relative flex flex-col group transition-all duration-300 overflow-hidden`}
+          >
+            {/* Top Stat Badge */}
+            <div className={`self-end px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-4 z-10
+              ${item.style === 'bento-card-dark' ? 'bg-white/10 text-white border border-white/5' : ''}
+              ${item.style === 'bento-card' ? 'bg-slate-100 text-charcoal' : ''}
+              ${item.style === 'bento-card-accent' ? 'bg-charcoal/10 text-charcoal' : ''}
+            `}>
+              {item.year}
+            </div>
+
+            <div className={`mt-auto pt-16 z-10`}>
+              <motion.div 
+                whileHover={{ rotate: 10, scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className={`p-4 rounded-2xl inline-flex w-fit shadow-sm mb-6
+                ${item.style === 'bento-card-dark' ? 'bg-bento-accent text-charcoal' : ''}
+                ${item.style === 'bento-card' ? 'bg-charcoal/5 text-charcoal' : ''}
+                ${item.style === 'bento-card-accent' ? 'bg-white text-charcoal' : ''}
+              `}>
+                <item.icon className="w-8 h-8" />
+              </motion.div>
+              
+              <h3 className={`text-xl md:text-2xl font-black mb-2
+                ${item.style === 'bento-card-dark' ? 'text-white' : 'text-charcoal'}
+              `}>{item.role}</h3>
+              
+              <p className={`font-medium text-sm md:text-base leading-snug
+                ${item.style === 'bento-card-dark' ? 'text-slate-400' : 'text-slate-600'}
+                ${item.style === 'bento-card-accent' && 'text-charcoal/80'}
+              `}>{item.organization}</p>
+            </div>
+          </motion.div>
+        ))}
+
+      </motion.div>
     </section>
   );
 };

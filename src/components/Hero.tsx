@@ -1,117 +1,131 @@
-import { motion, type Variants } from 'framer-motion';
-import { Download, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Download, Mail, Zap } from 'lucide-react';
 import profileImage from '../assets/myimage.jpeg';
 
-const particleVariants: Variants = {
-  animate: {
-    x: ["0%", "100%", "0%"],
-    y: ["0%", "100%", "0%"],
-    transition: {
-      duration: 20,
-      repeat: Infinity,
-      ease: "linear" as const,
-    }
-  }
-};
-
 const Hero = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } }
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#030712]">
+    <section id="hero" className="pt-12 md:pt-20 px-4 md:px-8 pb-8 relative z-10 w-full max-w-7xl mx-auto">
       
-      {/* --- Movable Particles Background --- */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(34,211,238,0.1),_transparent_70%)]" />
+      {/* Header text for Dashboard */}
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="mb-8"
+      >
+        <h1 className="text-3xl md:text-5xl font-black text-charcoal tracking-tight">
+          Overview
+        </h1>
+        <p className="text-slate-500 font-medium mt-2">Welcome to my professional engineering portfolio.</p>
+      </motion.div>
+
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+      >
         
-        {Array.from({ length: 25 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-[#22d3ee]/20 blur-[1px] shadow-[0_0_10px_#22d3ee]"
-            style={{
-              width: Math.random() * 5 + 2 + 'px',
-              height: Math.random() * 5 + 2 + 'px',
-              left: Math.random() * 100 + '%',
-              top: Math.random() * 100 + '%',
-            }}
-            variants={particleVariants}
-            animate="animate"
-            transition={{
-              duration: Math.random() * 15 + 15,
-              repeat: Infinity,
-              ease: "linear",
-              delay: Math.random() * 5
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        {/* Main Hero Bento Card (Spans 2 columns on desktop) */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="flex flex-col items-center"
+          variants={itemVariants}
+          whileHover={{ y: -5, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }}
+          className="bento-card-dark md:col-span-2 p-8 md:p-12 relative flex flex-col justify-between overflow-hidden group"
         >
-          {/* 1. Profile Image - Centered & Professional Size */}
+          {/* Decorative Background Element */}
           <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="relative mb-8"
-          >
-            <div className="absolute inset-0 rounded-full bg-[#22d3ee]/10 blur-3xl animate-pulse" />
-            <img 
-              src={profileImage} 
-              alt="A.M. Aseem" 
-              className="relative w-36 h-36 md:w-44 md:h-44 object-cover rounded-full border-2 border-[#22d3ee]/30 p-1 bg-slate-900 shadow-2xl z-10" 
-            />
-          </motion.div>
-
-          {/* 2. Compact Badge */}
-          <motion.div 
-            className="px-4 py-1.5 rounded-full border border-[#22d3ee]/20 bg-[#22d3ee]/5 text-[#22d3ee] text-[10px] md:text-xs font-black tracking-[0.2em] uppercase mb-6 backdrop-blur-sm shadow-lg"
-          >
-            Materials Technology | Engineering Honors
-          </motion.div>
+            animate={{ scale: [1, 1.1, 1], rotate: [0, 5, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" 
+          />
           
-          {/* 3. Name - Not too big, Just Perfect */}
-          <h1 className="text-4xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-none mb-6">
-            A.M. <span className="text-[#22d3ee] drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">ASEEM</span>
-          </h1>
-          
-          {/* 4. Small & Clear Subtitle */}
-          <p className="text-sm md:text-lg text-slate-400 font-medium max-w-2xl mx-auto leading-relaxed mb-12">
-            Specializing in <span className="text-white">Metallurgy</span>, <span className="text-white">Polymers</span>, and <span className="text-white">Ceramics</span>. 
-            Bridging theoretical material science with industrial innovation.
-          </p>
-
-          {/* 5. Glass & Neon Buttons (As requested, similar to your image) */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            
-            {/* Primary Button (Neon Cyan Glow) */}
-            <motion.a 
-              whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(34, 211, 238, 0.4)" }}
+          <div className="relative z-10">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/Aseem_Resume.pdf" 
-              download="Aseem_Resume.pdf"
-              className="group relative flex items-center gap-3 px-10 py-4 rounded-full bg-[#22d3ee]/10 border border-[#22d3ee]/30 backdrop-blur-md text-white font-black text-xs md:text-sm tracking-widest uppercase transition-all duration-300"
+              className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold tracking-[0.1em] uppercase mb-6 backdrop-blur-sm border border-white/10 cursor-default"
             >
-              <Download className="w-5 h-5 text-[#22d3ee]" /> 
-              Download CV
-            </motion.a>
+              Materials Technology
+            </motion.div>
             
-            {/* Secondary Button (Minimalist Glass) */}
-            <motion.a 
-              whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.2)" }}
-              whileTap={{ scale: 0.95 }}
-              href="#contact" 
-              className="flex items-center gap-3 px-10 py-4 rounded-full bg-white/0 border border-white/10 backdrop-blur-md text-slate-300 font-black text-xs md:text-sm tracking-widest uppercase transition-all duration-300 hover:text-white"
-            >
-              <Mail className="w-5 h-5" /> 
-              Contact Me
-            </motion.a>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none mb-4">
+              A.M. <motion.span 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: "spring", bounce: 0.5, delay: 0.5 }}
+                className="text-bento-accent inline-block"
+              >ASEEM</motion.span>
+            </h2>
+            
+            <p className="text-slate-300 font-medium max-w-md leading-relaxed mb-8 text-sm md:text-base">
+              Specializing in Metallurgy, Polymers, and Ceramics. Bridging theoretical material science with industrial innovation.
+            </p>
 
+            <div className="flex flex-wrap items-center gap-4">
+              <motion.a 
+                whileHover={{ scale: 1.05, filter: "brightness(1.1)", boxShadow: "0 10px 20px rgba(204, 255, 0, 0.3)" }}
+                whileTap={{ scale: 0.95 }}
+                href="/Aseem_Resume.pdf" 
+                download="Aseem_Resume.pdf"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-bento-accent text-charcoal font-black text-xs md:text-sm tracking-widest uppercase transition-all duration-300"
+              >
+                <Download className="w-4 h-4" /> 
+                Download CV
+              </motion.a>
+              
+              <motion.a 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
+                whileTap={{ scale: 0.95 }}
+                href="#contact" 
+                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-bold text-xs md:text-sm tracking-widest uppercase transition-all duration-300"
+              >
+                <Mail className="w-4 h-4" /> 
+                Contact
+              </motion.a>
+            </div>
           </div>
         </motion.div>
-      </div>
 
+        {/* Profile Info / Quick Stats Bento Card */}
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(0,0,0,0.05)" }}
+          className="bento-card p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group"
+        >
+          {/* Subtle Accent Glow */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-bento-accent/10 rounded-full blur-2xl group-hover:bg-bento-accent/20 transition-all duration-500 pointer-events-none" />
+          
+          <motion.img 
+            whileHover={{ rotate: 0, scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            src={profileImage} 
+            alt="A.M. Aseem" 
+            className="w-32 h-32 md:w-40 md:h-40 object-cover rounded-[2rem] border-4 border-white shadow-xl rotate-3 z-10 mb-6 cursor-pointer" 
+          />
+          
+          <div className="flex items-center gap-2 text-charcoal font-black text-xl mb-1 group-hover:text-bento-accent transition-colors">
+            Status <motion.div 
+              animate={{ rotate: [0, 15, -15, 0] }} 
+              transition={{ repeat: Infinity, duration: 2, repeatDelay: 1 }}
+            ><Zap className="w-5 h-5 text-bento-accent fill-current" /></motion.div>
+          </div>
+          <p className="text-slate-500 font-medium text-sm transition-colors group-hover:text-slate-700">Undergraduate Engineer at Rajarata University</p>
+        </motion.div>
+
+      </motion.div>
     </section>
   );
 };

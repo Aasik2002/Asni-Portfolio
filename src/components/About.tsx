@@ -1,102 +1,116 @@
 import { motion } from 'framer-motion';
-import { Anvil, Hexagon } from 'lucide-react';
+import { Anvil, Hexagon, Component } from 'lucide-react';
 
-// Specializations தரவுகளை Component-க்கு உள்ளேயே வைப்பது பிழைகளைத் தவிர்க்கும்
 const specializations = [
   {
     title: 'Metallurgy',
     icon: Anvil,
-    skills: ['Metal Casting', 'Heat Treatment'],
-    color: 'from-orange-500/20 to-blue-600/20',
+    skills: ['Metal Casting', 'Heat Treatment', 'Alloying'],
+    style: 'bento-card-dark',
   },
   {
     title: 'Polymers',
-    icon: Hexagon,
-    skills: ['Polymer Processing', 'Injection Molding'],
-    color: 'from-blue-500/20 to-teal-500/20',
+    icon: Component,
+    skills: ['Polymer Processing', 'Injection Molding', 'Extrusion'],
+    style: 'bento-card-accent',
   },
   {
     title: 'Ceramics',
     icon: Hexagon, 
-    skills: ['Refractory Materials', 'Glass Technology'],
-    color: 'from-rose-500/20 to-purple-500/20',
+    skills: ['Refractory Materials', 'Glass Tech', 'Sintering'],
+    style: 'bento-card',
   }
 ];
 
 const About = () => {
-  // அனிமேஷன் செட்டிங்ஸ்
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
+    visible: { 
       opacity: 1,
-      transition: { staggerChildren: 0.2 }
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 }
     }
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+    hidden: { y: 40, opacity: 0, scale: 0.95 },
+    visible: { y: 0, opacity: 1, scale: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } }
   };
 
   return (
-    <section id="about" className="py-24 relative z-10 bg-[#0f172a]">
-      <div className="max-w-6xl mx-auto px-6">
-        
-        {/* Title Section with Animation */}
+    <section id="about" className="py-12 px-4 md:px-8 relative z-10 w-full max-w-7xl mx-auto">
+      
+      {/* Title Section */}
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="mb-8"
+      >
+        <h2 className="text-3xl md:text-4xl font-black text-charcoal mb-4">
+          Specializations
+        </h2>
         <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ width: 0 }}
+          whileInView={{ width: 64 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            About & <span className="text-[#38bdf8]">Specialization</span>
-          </h2>
-          <div className="w-20 h-1 bg-[#38bdf8] mb-8" />
-          <p className="text-lg text-slate-300 max-w-3xl leading-relaxed">
-            I am a passionate Materials Technology Undergraduate at the Rajarata University of Sri Lanka, pursuing my Bachelor of Engineering Technology (Honours). With a rigorous grounding in structural mechanics, thermodynamic processes, and material characterization, I am dedicated to bridging the gap between theoretical material science and practical industrial applications.
-          </p>
-        </motion.div>
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="h-1.5 bg-bento-accent rounded-full mb-6" 
+        />
+      </motion.div>
 
-        {/* Specialization Cards Grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
-          {specializations.map((spec) => (
-            <motion.div
-              key={spec.title}
-              variants={itemVariants}
-              whileHover={{ y: -10 }}
-              className="p-8 rounded-3xl bg-slate-900/50 border border-slate-800 hover:border-[#38bdf8]/50 transition-all group relative overflow-hidden backdrop-blur-sm"
-            >
-              {/* Animated Gradient Background on Hover */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${spec.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              
-              <div className="relative z-10">
-                <div className="w-14 h-14 bg-slate-800 rounded-2xl flex items-center justify-center mb-6 border border-slate-700 text-[#38bdf8] group-hover:bg-[#38bdf8] group-hover:text-white transition-all duration-300 shadow-xl">
-                  <spec.icon className="w-7 h-7" />
-                </div>
-                
-                <h3 className="text-2xl font-bold text-white mb-4">{spec.title}</h3>
-                
-                <ul className="space-y-3">
-                  {spec.skills.map((skill) => (
-                    <li key={skill} className="flex items-center text-slate-400 group-hover:text-slate-200 transition-colors">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#38bdf8] mr-3 shadow-[0_0_8px_#38bdf8]" />
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+      {/* Specialization Cards Grid */}
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={containerVariants}
+      >
+        {specializations.map((spec) => (
+          <motion.div
+            key={spec.title}
+            variants={itemVariants}
+            whileHover={{ y: -10, scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)" }}
+            className={`${spec.style} p-8 group relative transition-all duration-300 flex flex-col`}
+          >
+            <motion.div 
+              whileHover={{ rotate: 10, scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 shrink-0 shadow-sm
+              ${spec.style === 'bento-card' ? 'bg-bento-bg text-charcoal' : ''}
+              ${spec.style === 'bento-card-dark' ? 'bg-white/10 text-white' : ''}
+              ${spec.style === 'bento-card-accent' ? 'bg-charcoal/10 text-charcoal' : ''}
+            `}>
+              <spec.icon className="w-7 h-7" />
             </motion.div>
-          ))}
-        </motion.div>
-      </div>
+            
+            <h3 className={`text-2xl font-black mb-6 ${spec.style === 'bento-card-dark' ? 'text-white' : 'text-charcoal'}`}>
+              {spec.title}
+            </h3>
+            
+            <ul className="space-y-4 mt-auto">
+              {spec.skills.map((skill, index) => (
+                <motion.li 
+                  key={skill}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + (index * 0.1) }}
+                  viewport={{ once: true }}
+                  className={`flex items-center text-sm font-semibold 
+                  ${spec.style === 'bento-card-dark' ? 'text-slate-300' : 'text-slate-600'}
+                  ${spec.style === 'bento-card-accent' && 'text-charcoal/80'}
+                `}>
+                  <div className={`w-2 h-2 rounded-full mr-3 shrink-0
+                    ${spec.style === 'bento-card-dark' ? 'bg-bento-accent' : 'bg-charcoal'}
+                  `} />
+                  {skill}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 };

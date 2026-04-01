@@ -46,152 +46,184 @@ const ContactFooter = () => {
     });
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: 'spring' as const, stiffness: 200, damping: 20 } }
+  };
+
   return (
-    <footer id="contact" className="relative z-10 bg-[#0a0f1a] border-t border-slate-800/50">
-      <div className="max-w-6xl mx-auto px-6 py-24">
-        
-        {/* Animated Heading */}
+    <footer id="contact" className="py-12 px-4 md:px-8 relative z-10 w-full max-w-7xl mx-auto pb-24">
+      
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="mb-8"
+      >
+        <h2 className="text-3xl md:text-4xl font-black text-charcoal mb-4">
+          Get In Touch
+        </h2>
         <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ width: 0 }}
+          whileInView={{ width: 64 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="h-1.5 bg-bento-accent rounded-full mb-6" 
+        />
+      </motion.div>
+
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="grid grid-cols-1 lg:grid-cols-5 gap-6"
+      >
+        
+        {/* Contact Info Bento Box */}
+        <motion.div 
+          variants={itemVariants}
+          whileHover={{ y: -5, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.2)" }}
+          className="bento-card-dark lg:col-span-2 p-8 relative overflow-hidden flex flex-col justify-between group transition-all duration-300"
         >
-          <h2 className="text-4xl md:text-7xl font-black text-white mb-6">
-            Get In <span className="text-[#38bdf8]">Touch</span>
-          </h2>
-          <div className="w-24 h-1.5 bg-[#38bdf8] mx-auto rounded-full shadow-[0_0_15px_#38bdf8]" />
-        </motion.div>
+          {/* Accent decoration */}
+          <div className="absolute top-0 right-0 w-40 h-40 bg-bento-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-bento-accent/20 transition-colors duration-500" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          
-          {/* Left: Contact Info with Slide-in Animation */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-slate-900/40 p-10 rounded-[2rem] border border-slate-800 backdrop-blur-xl space-y-12 shadow-2xl"
-          >
-            <div>
-              <h3 className="text-3xl font-bold text-white mb-6 underline decoration-[#38bdf8] decoration-4 underline-offset-8">Contact Information</h3>
-              <p className="text-slate-400 text-xl leading-relaxed italic">
-                "Ready to collaborate? Let's turn your material engineering challenges into reality."
-              </p>
-            </div>
+          <div className="relative z-10">
+            <h3 className="text-2xl font-black text-white mb-4 group-hover:text-bento-accent transition-colors">Let's Connect</h3>
+            <p className="text-slate-400 font-medium mb-10 leading-relaxed text-sm">
+              Ready to collaborate? Let's turn your material engineering challenges into reality.
+            </p>
 
-            <div className="space-y-8">
+            <div className="space-y-6 flex-1">
               {[
                 { icon: Phone, label: "Phone", value: "+94 714 609 913", href: "tel:+94714609913" },
                 { icon: Mail, label: "Email", value: "aseemhd36@gmail.com", href: "mailto:aseemhd36@gmail.com" },
                 { icon: MapPin, label: "Location", value: "Polonnaruwa, Sri Lanka", href: null }
               ].map((item, i) => (
                 <motion.div 
-                  key={i}
-                  whileHover={{ x: 10 }}
-                  className="flex items-center gap-6 group cursor-pointer"
+                  key={i} 
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + (i * 0.1) }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-4 group/item"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center group-hover:bg-[#38bdf8] group-hover:rotate-12 transition-all duration-300 shadow-lg">
-                    <item.icon className="w-7 h-7 text-[#38bdf8] group-hover:text-[#0a0f1a]" />
-                  </div>
+                  <motion.div 
+                    whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.1 }}
+                    className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:bg-bento-accent group-hover/item:text-charcoal transition-all shadow-sm"
+                  >
+                    <item.icon className="w-5 h-5 text-bento-accent group-hover/item:text-charcoal" />
+                  </motion.div>
                   <div>
-                    <p className="text-xs text-slate-500 uppercase font-black tracking-widest">{item.label}</p>
+                    <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">{item.label}</p>
                     {item.href ? (
-                      <a href={item.href} className="text-xl text-slate-200 group-hover:text-[#38bdf8] transition-colors">{item.value}</a>
+                      <a href={item.href} className="text-sm font-semibold text-white hover:text-bento-accent transition-colors">
+                        {item.value}
+                      </a>
                     ) : (
-                      <p className="text-xl text-slate-200">{item.value}</p>
+                      <p className="text-sm font-semibold text-white">{item.value}</p>
                     )}
                   </div>
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
+          
+          <div className="mt-12 pt-6 border-t border-white/10 text-xs font-bold text-slate-600 uppercase tracking-widest relative z-10">
+            © {new Date().getFullYear()} A.M. Aseem
+          </div>
+        </motion.div>
 
-          {/* Right: Form with Scale-in Animation */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Contact Form Bento Box */}
+        <motion.div
+          variants={itemVariants}
+          className="bento-card lg:col-span-3 p-8 md:p-10 relative overflow-hidden group"
+        >
+          <form onSubmit={handleSubmit} className="h-full flex flex-col justify-between relative z-10">
+            <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <label className="text-sm font-black text-slate-400 uppercase tracking-widest ml-1">Your Name</label>
+                
+                {/* Name Input */}
+                <motion.div variants={itemVariants} className="space-y-2">
+                  <label className="text-xs font-bold text-charcoal uppercase tracking-wider pl-1">Name</label>
                   <input 
                     type="text" 
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
-                    className="w-full bg-slate-900/60 border-2 border-slate-800 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-[#38bdf8] focus:ring-4 focus:ring-[#38bdf8]/10 transition-all placeholder:text-slate-600"
-                    placeholder="Ahamad Aasik"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-charcoal focus:outline-none focus:border-bento-accent focus:ring-4 focus:ring-bento-accent/20 transition-all font-medium text-sm hover:border-slate-300"
+                    placeholder="Enter your name"
                   />
-                </div>
-                <div className="space-y-3">
-                  <label className="text-sm font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                </motion.div>
+                
+                {/* Email Input */}
+                <motion.div variants={itemVariants} className="space-y-2">
+                  <label className="text-xs font-bold text-charcoal uppercase tracking-wider pl-1">Email</label>
                   <input 
                     type="email" 
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
-                    className="w-full bg-slate-900/60 border-2 border-slate-800 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-[#38bdf8] focus:ring-4 focus:ring-[#38bdf8]/10 transition-all placeholder:text-slate-600"
-                    placeholder="example@gmail.com"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-charcoal focus:outline-none focus:border-bento-accent focus:ring-4 focus:ring-bento-accent/20 transition-all font-medium text-sm hover:border-slate-300"
+                    placeholder="example@email.com"
                   />
-                </div>
+                </motion.div>
               </div>
 
-              <div className="space-y-3">
-                <label className="text-sm font-black text-slate-400 uppercase tracking-widest ml-1">Message</label>
+              {/* Message Input */}
+              <motion.div variants={itemVariants} className="space-y-2">
+                <label className="text-xs font-bold text-charcoal uppercase tracking-wider pl-1">Message</label>
                 <textarea 
-                  rows={6}
+                  rows={5}
                   value={formData.message}
                   onChange={e => setFormData({...formData, message: e.target.value})}
-                  className="w-full bg-slate-900/60 border-2 border-slate-800 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-[#38bdf8] focus:ring-4 focus:ring-[#38bdf8]/10 transition-all resize-none placeholder:text-slate-600"
-                  placeholder="Tell me about your materials project..."
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-charcoal focus:outline-none focus:border-bento-accent focus:ring-4 focus:ring-bento-accent/20 transition-all resize-none font-medium text-sm hover:border-slate-300"
+                  placeholder="How can I assist you with your project?"
                 />
-              </div>
+              </motion.div>
+            </div>
 
+            {/* Form Footer */}
+            <motion.div variants={itemVariants} className="mt-8">
               {status && (
                 <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`p-5 rounded-2xl text-sm font-black text-center tracking-wide ${status.includes('successfully') ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}
-                >
+                  className={`mb-4 p-3 rounded-xl text-xs font-bold text-center tracking-wide
+                  ${status.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}
+                `}>
                   {status}
                 </motion.div>
               )}
 
               <motion.button 
-                whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(56, 189, 248, 0.2)" }}
+                whileHover={{ scale: 1.02, boxShadow: "0 10px 25px rgba(0,0,0,0.15)" }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#38bdf8] hover:bg-[#0ea5e9] text-[#0a0f1a] font-black py-6 rounded-2xl transition-all flex items-center justify-center gap-4 shadow-xl disabled:opacity-50 text-lg uppercase tracking-widest"
+                className="w-full sm:w-auto px-8 py-4 bg-charcoal hover:bg-slate-800 text-white font-black text-sm rounded-xl transition-all flex items-center justify-center gap-3 disabled:opacity-70 mx-auto lg:mx-0 shadow-lg shadow-charcoal/20 group/btn"
               >
                 {loading ? (
-                  <>Sending... <Loader2 className="animate-spin w-6 h-6" /></>
+                  <>Sending <Loader2 className="animate-spin w-4 h-4 text-bento-accent" /></>
                 ) : (
-                  <>Send Message <Send className="w-6 h-6" /></>
+                  <>Send Message <Send className="w-4 h-4 text-bento-accent group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" /></>
                 )}
               </motion.button>
-            </form>
-          </motion.div>
+            </motion.div>
+          </form>
+        </motion.div>
 
-        </div>
-      </div>
-
-      {/* Footer Bottom with High Contrast */}
-      <div className="border-t border-slate-800/80 py-12 text-center bg-[#050810]">
-        <motion.h2 
-          whileHover={{ letterSpacing: "0.2em" }}
-          className="text-3xl font-black text-white tracking-tighter mb-4 italic uppercase transition-all"
-        >
-          ASEEM <span className="text-[#38bdf8]">PORTFOLIO</span>
-        </motion.h2>
-        <p className="text-slate-500 text-sm font-medium">
-          © {new Date().getFullYear()} A.M. Aseem. Materials Technology | Engineering Honors.
-        </p>
-      </div>
+      </motion.div>
     </footer>
   );
 };
 
-export default ContactFooter;
+export default ContactFooter;;
